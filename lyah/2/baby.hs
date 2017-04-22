@@ -20,6 +20,10 @@ circumference r = 2 * pi * r
 circumference' :: Double -> Double
 circumference' r = 2 * pi * r
 
+sum' :: (Num a) => [a] -> a
+sum' [] = 0
+sum' (x:xs) = x + (sum' xs)
+
 lucky :: (Integral a) => a -> String
 lucky 7 = "LUCKY NUMBER SEVEN!"
 lucky x = "Sorry, you're out of luck, pal!"

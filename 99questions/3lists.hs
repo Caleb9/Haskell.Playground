@@ -1,4 +1,4 @@
-import Data.List (nub,subsequences)
+import Data.List (nub,subsequences,delete)
 import System.Random
 
 -- 20
@@ -35,3 +35,14 @@ rnd_select'' xs n = do
   gen <- newStdGen
   return $ take n [xs !! x | x <- randomRs (0, (length xs)-1) gen]
   
+-- 24
+
+diff_select :: Int -> Int -> IO [Int]
+diff_select n range = do
+  gen <- newStdGen
+  let selectFromSet _ _ 0 = []
+      selectFromSet set gen' n' =
+        let (index, newGen) = randomR (0, length set - 1) gen'
+            x = (set !! index)
+        in x : selectFromSet (delete x set) newGen (n'-1)
+  return $ (selectFromSet [1..range] gen n)
