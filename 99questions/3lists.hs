@@ -46,3 +46,21 @@ diff_select n range = do
             x = (set !! index)
         in x : selectFromSet (delete x set) newGen (n'-1)
   return $ (selectFromSet [1..range] gen n)
+
+diff_select' :: Int -> Int -> IO [Int]
+diff_select' n m
+  | n > m = error "n must be less than or equal to m"
+  | otherwise = do
+      gen <- newStdGen
+      return (take n . nub . randomRs (1, m) $ gen)
+
+-- 25
+
+rnd_permu :: [a] -> IO [a]
+rnd_permu xs = do
+  gen <- newStdGen
+  let rnd_permu' _ [] = []
+      rnd_permu' gen' xs' =
+        let (index, newGen) = randomR (0, length xs' - 1) gen'
+        in  xs' !! index : rnd_permu' newGen (take index xs' ++ drop (index+1) xs')
+  return (rnd_permu' gen xs)
