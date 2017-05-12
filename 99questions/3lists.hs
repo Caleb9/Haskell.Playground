@@ -1,4 +1,9 @@
-import Data.List (nub,subsequences,delete)
+import Data.List
+  (nub
+  ,subsequences
+  ,delete
+  ,permutations
+  ,sort)
 import System.Random
 
 -- 20
@@ -64,3 +69,11 @@ rnd_permu xs = do
         let (index, newGen) = randomR (0, length xs' - 1) gen'
         in  xs' !! index : rnd_permu' newGen (take index xs' ++ drop (index+1) xs')
   return (rnd_permu' gen xs)
+
+-- 26
+
+-- Very inefficient for larger lists
+combinations :: (Ord a) => Int -> [a] -> [[a]]
+combinations k xs =
+  let dupli_combinations = map (sort . take k) . permutations
+  in sort . nub . dupli_combinations $ xs
